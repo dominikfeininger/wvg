@@ -4,6 +4,8 @@ import java.util.LinkedList;
 
 public class Search {
 	private static LinkedList<Node> list = new LinkedList<Node>();
+	// list to save already visited nodes
+	private static LinkedList<Node> ramlist = new LinkedList<Node>();
 
 	// methods
 	/**
@@ -49,6 +51,7 @@ public class Search {
 		list.removeAll(list);
 		list.addLast(graph.getRootNode());
 		Node currentNode = graph.getRootNode();
+		ramlist.addLast(currentNode);
 		// test if root node is target
 		if (graph.getRootNode().getLabel().equals(target.getLabel())) {
 			System.out.println(currentNode.getLabel());
@@ -59,22 +62,32 @@ public class Search {
 				System.out.print(list.get(i).getLabel());
 			}
 			currentNode = list.removeFirst();
+			// add visited node to remember list
+			ramlist.addLast(currentNode);
 			System.out.println();
 			if (currentNode.getLabel().equals(target.getLabel())) {
 				System.out.println(currentNode.getLabel());
 				System.out.println("Node found");
 			} else {
 				for (int i = 0; i < currentNode.getChildren().size(); i++) {
-					list.addFirst(currentNode.getChildren().get(
-							currentNode.getChildren().size() - 1 - i));
+					// check the whole ramlist
+					for (int j = 0; j < ramlist.size(); j++) {
+						// if there is a already visited node in ramlist
+						if (currentNode.getLabel().equals(ramlist.get(j))) {
+							currentNode = list.removeFirst();
+							// else do it like usual
+						} else {
+							list.addFirst(currentNode.getChildren().get(
+									currentNode.getChildren().size() - 1 - i));
+						}
+					}
 				}
 			}
-			//terminate early
-			if (g == 20) {
-				return;
-			}
-			g++;
+			// terminate early
+			// if (g == 20) {
+			// return;
+			// }
+			// g++;
 		} while (currentNode != target);
 	}
-
 }
