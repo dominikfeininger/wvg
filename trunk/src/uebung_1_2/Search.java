@@ -17,10 +17,6 @@ public class Search {
 		// add root
 		list.addFirst(graph.getRootNode());
 		Node currentNode = graph.getRootNode();
-		// test if root is target
-		if (graph.getRootNode().getLabel().equals(target.getLabel())) {
-			System.out.println(currentNode.getLabel());
-		}
 		do {
 			// print node label
 			for (int i = 0; i < list.size(); i++) {
@@ -31,11 +27,12 @@ public class Search {
 			currentNode = list.removeFirst();
 			// test if node found
 			if (currentNode.getLabel().equals(target.getLabel())) {
+				System.out.println("Node found:");
 				System.out.println(currentNode.getLabel());
-				System.out.println("Node found");
 			} else {
 				// not found -> add next node
 				for (int i = 0; i < currentNode.getChildren().size(); i++) {
+					//sepecific to breathsearch
 					list.addLast(currentNode.getChildren().get(i));
 				}
 			}
@@ -46,48 +43,36 @@ public class Search {
 	 * this method implements the depththsearch
 	 */
 	public static void depthsearch(Graph graph, Node target) {
-		int g = 0;
 		// remove all old nodes
 		list.removeAll(list);
 		list.addLast(graph.getRootNode());
-		Node currentNode = graph.getRootNode();
-		ramlist.addLast(currentNode);
+		Node currentNode;
 		// test if root node is target
-		if (graph.getRootNode().getLabel().equals(target.getLabel())) {
-			System.out.println(currentNode.getLabel());
-		}
 		do {
+			// print loop
 			for (int i = 0; i < list.size(); i++) {
 				// print all nodes in list
 				System.out.print(list.get(i).getLabel());
 			}
 			currentNode = list.removeFirst();
-			// add visited node to remember list
-			ramlist.addLast(currentNode);
 			System.out.println();
 			if (currentNode.getLabel().equals(target.getLabel())) {
+				System.out.println("Node found:");
 				System.out.println(currentNode.getLabel());
-				System.out.println("Node found");
 			} else {
-				for (int i = 0; i < currentNode.getChildren().size(); i++) {
-					// check the whole ramlist
-					for (int j = 0; j < ramlist.size(); j++) {
-						// if there is a already visited node in ramlist
-						if (currentNode.getLabel().equals(ramlist.get(j))) {
-							currentNode = list.removeFirst();
-							// else do it like usual
-						} else {
-							list.addFirst(currentNode.getChildren().get(
-									currentNode.getChildren().size() - 1 - i));
-						}
+				// check the whole ramlist
+				// if there is a already visited node in ramlist
+				if (!ramlist.contains(currentNode)) {
+					// else do it like usual
+					for (int i = 0; i < currentNode.getChildren().size(); i++) {
+						//specific to depthsearch
+						list.addFirst(currentNode.getChildren().get(
+								currentNode.getChildren().size() - 1 - i));
 					}
 				}
 			}
-			// terminate early
-			// if (g == 20) {
-			// return;
-			// }
-			// g++;
+			// add visited node to remember list
+			ramlist.addLast(currentNode);
 		} while (currentNode != target);
 	}
 }
