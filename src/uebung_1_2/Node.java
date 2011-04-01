@@ -3,8 +3,9 @@ package uebung_1_2;
 import java.util.LinkedList;
 
 public class Node {
-
+	//saves all children in list
 	private LinkedList<Node> children;
+	//save the name of node
 	private String label;
 
 	//constructor
@@ -14,7 +15,6 @@ public class Node {
 	}
 
 	//methods
-
 	public void setChildren(Node childNode){
 		this.children.add(childNode);
 	}

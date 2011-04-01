@@ -1,6 +1,7 @@
 package uebung_1_2;
 
 public class Graph {
+	//just knows the root node
 	private Node rootNode;
 
 	//constructor
